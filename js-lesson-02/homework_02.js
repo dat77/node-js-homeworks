@@ -2,7 +2,7 @@
 
 const isPalindrom = ( n ) => {
     if ( n < 0) return false
-    if ( n === 0) return true
+    if ( n < 10) return true
     let reverse = ''
     let remainder = n
     while ( remainder > 0 ) {
@@ -13,4 +13,4 @@ const isPalindrom = ( n ) => {
 }
 console.log( isPalindrom( 3445443 ) )
 console.log( isPalindrom( -3445443 ) )
-console.log( isPalindrom( 0 ) )
+console.log( isPalindrom( 9 ) )
