@@ -1,0 +1,9 @@
+### Ping
+GET http://localhost:3000/ping
+Accept: application/json
+Authorization: value@value.com
+
+### Ping Test
+GET http://localhost:3000/ping/test
+Accept: application/json
+Authorization: value@value.com
