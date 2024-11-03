@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS album(
     id SERIAL PRIMARY KEY,
     author_id INT NOT NULL,
 	name VARCHAR(128) NOT NULL,
-    FOREIGN_KEY(author_id)
+    FOREIGN KEY (author_id)
        REFERENCES author(id)
        ON DELETE CASCADE
 );
@@ -19,10 +19,10 @@ VALUES
 
 INSERT INTO album (author_id, name)
 VALUES
-    ('Led Zeppelin II', 1),
-	('Led Zeppelin IV', 1),
-    ('Nevermind', 2),
-	('In Utero', 2);
+    (1, 'Led Zeppelin II'),
+	(1, 'Led Zeppelin IV'),
+    (2, 'Nevermind'),
+	(2, 'In Utero');
 
 -- DELETE FROM author
 -- WHERE id = 1;
