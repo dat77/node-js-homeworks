@@ -10,7 +10,8 @@ const findUserById = async (userId) => {
   }
   const user = await User.findById(userId);
   if (user) {
-    await client.set(cacheKey, JSON.stringify(user), { EX: 3600 });
+    await client.set(cacheKey, JSON.stringify(user),
+        { EXAT: Math.trunc(new Date().valueOf() / 1000) + 24 * 60 * 60 }); // set expiration date one day in advance
   }
   return user;
 };
@@ -19,7 +20,8 @@ const createUser = async (data) => {
   const user = new User(data);
   const newUser = await user.save();
   const cacheKey = `user:${newUser._id}`;
-  await client.set(cacheKey, JSON.stringify(newUser), { EX: 3600 });
+  await client.set(cacheKey, JSON.stringify(newUser),
+      { EXAT: Math.trunc(new Date().valueOf() / 1000) + 24 * 60 * 60 }); // set expiration date one day in advance
   return newUser;
 };
 
@@ -32,7 +34,8 @@ const updateUser = async (data) => {
   );
   if (updatedUser) {
     const cacheKey = `user:${id}`;
-    await client.set(cacheKey, JSON.stringify(updatedUser), { EX: 3600 });
+    await client.set(cacheKey, JSON.stringify(updatedUser),
+        { EXAT: Math.trunc(new Date().valueOf() / 1000) + 24 * 60 * 60 }); // set expiration date one day in advance
   }
   return updatedUser;
 };
@@ -71,7 +74,8 @@ const getUserComments = async (userId) => {
     return JSON.parse(cachedComments);
   }
   const comments = await Comment.find({ userId }).populate("userId");
-  await client.set(cacheKey, JSON.stringify(comments), { EX: 3600 });
+  await client.set(cacheKey, JSON.stringify(comments),
+      { EXAT: Math.trunc(new Date().valueOf() / 1000) + 24 * 60 * 60 }); // set expiration date one day in advance
   return comments;
 };
 
