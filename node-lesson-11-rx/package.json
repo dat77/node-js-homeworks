@@ -1,0 +1,17 @@
+{
+  "name": "reactive-programming",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "@types/selenium-webdriver": "^4.1.27",
+    "rxjs": "^7.8.1",
+    "selenium-webdriver": "^4.26.0"
+  }
+}
