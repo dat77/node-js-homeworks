@@ -18,10 +18,9 @@ function createGenerator() {
     let count = 1;
     return function () {
         if (count <= 3) {
-            // Ваш код тут
             return count++;
         } else {
-            // Ваш код тут
+            return undefined;
         }
     };
 }
