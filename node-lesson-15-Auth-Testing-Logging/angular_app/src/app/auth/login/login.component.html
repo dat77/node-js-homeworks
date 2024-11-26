@@ -1,0 +1,26 @@
+<mat-card class="login-card">
+  <h2 class="login-title">Вхід</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Логін</mat-label>
+      <input id="login" matInput formControlName="username" required />
+      <mat-error *ngIf="loginForm.get('username')?.hasError('required')"
+      >Логін обов'язковий</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Пароль</mat-label>
+      <input id="password" matInput type="password" formControlName="password" required />
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')"
+      >Пароль обов'язковий</mat-error
+      >
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" class="full-width">
+      Увійти
+    </button>
+  </form>
+  <p class="register-link">
+    Немає акаунту?
+    <a routerLink="/auth/register">Зареєструйтеся</a>
+  </p>
+</mat-card>

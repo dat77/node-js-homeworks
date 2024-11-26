@@ -1,0 +1,17 @@
+<mat-card>
+  <h2>Новий твіт</h2>
+  <form [formGroup]="tweetForm" (ngSubmit)="postTweet()">
+    <mat-form-field appearance="fill">
+      <mat-label>Ваш твіт</mat-label>
+      <textarea matInput formControlName="content" required></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Опублікувати</button>
+  </form>
+</mat-card>
+
+<div *ngFor="let tweet of tweets">
+  <mat-card>
+    <p>{{ tweet.content }}</p>
+    <p><small>— {{ tweet.author }}</small></p>
+  </mat-card>
+</div>

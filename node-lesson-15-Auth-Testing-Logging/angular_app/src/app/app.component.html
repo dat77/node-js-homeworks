@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <span class="spacer"></span>
+  <ng-container *ngIf="isAuthenticated(); else authLinks">
+    <button mat-button routerLink="/tweets">Головна</button>
+    <button mat-button routerLink="/user/profile">Профіль</button>
+    <button mat-button (click)="logout()">Вийти</button>
+  </ng-container>
+  <ng-template #authLinks>
+    <button mat-button routerLink="/auth/login">Увійти</button>
+    <button mat-button routerLink="/auth/register">Реєстрація</button>
+  </ng-template>
+</mat-toolbar>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
