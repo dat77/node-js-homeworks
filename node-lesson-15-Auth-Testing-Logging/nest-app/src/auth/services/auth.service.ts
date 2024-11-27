@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../../users/users.service';
 import { TokensService } from './tokens.service';
 import * as bcrypt from 'bcrypt';
+import any = jasmine.any;
 
 @Injectable()
 export class AuthService {
@@ -25,11 +26,39 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { username: user.username, sub: user.id };
+    const currUser = await this.usersService.findOneByUsername(user.username);
+
+    if (currUser) {
+      const access_decoded = this.jwtService.verify(currUser.access_token, {
+        secret: process.env.JWT_SECRET,
+      });
+      if ( access_decoded.exp > Math.trunc(new Date().valueOf() / 1000) ) {
+        return {
+          access_token: currUser.access_token,
+          refresh_token: currUser.refresh_token,
+        };
+      } else {
+        const refresh_decoded = this.jwtService.verify(currUser.refresh_token, {
+          secret: process.env.JWT_SECRET,
+        });
+        if ( refresh_decoded.exp > Math.trunc(new Date().valueOf() / 1000) ) {
+          const newAccessToken = this.jwtService.sign(payload, { expiresIn: '3h' });
+          await this.tokensService.refreshAccessToken(newAccessToken, currUser.refresh_token);
+          return {
+            access_token: newAccessToken,
+            refresh_token: currUser.refresh_token,
+          };
+        }
+      }
+    }
+
     const accessToken = this.jwtService.sign(payload, { expiresIn: '3h' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
-
-    await this.tokensService.saveTokens(user.id, accessToken, refreshToken);
-
+    if (currUser) {
+      await this.tokensService.refreshTokens(user.id, accessToken, refreshToken);
+    } else {
+      await this.tokensService.saveTokens(user.id, accessToken, refreshToken);
+    }
     return {
       access_token: accessToken,
       refresh_token: refreshToken,
