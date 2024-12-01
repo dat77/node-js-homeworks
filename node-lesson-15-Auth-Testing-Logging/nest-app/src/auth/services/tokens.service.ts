@@ -16,6 +16,17 @@ export class TokensService {
     );
   }
 
+  async refreshTokens(
+      userId: number,
+      accessToken: string,
+      refreshToken: string,
+  ): Promise<void> {
+    await this.pool.query(
+        'UPDATE tokens SET access_token = $2, refresh_token = $3 WHERE user_id = $1',
+        [userId, accessToken, refreshToken],
+    );
+  }
+
   async findAccessToken(accessToken: string): Promise<any> {
     const result = await this.pool.query(
       'SELECT * FROM tokens WHERE access_token = $1',
@@ -30,6 +41,12 @@ export class TokensService {
       [refreshToken],
     );
     return result.rows[0];
+  }
+
+  async refreshAccessToken(newAccessToken: string, refreshToken: string): Promise<void> {
+    await this.pool.query('UPDATE tokens SET access_token = $1 WHERE refresh_token = $2', [
+      newAccessToken, refreshToken
+    ]);
   }
 
   async deleteAccessToken(accessToken: string): Promise<void> {
