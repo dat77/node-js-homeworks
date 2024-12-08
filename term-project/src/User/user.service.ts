@@ -28,6 +28,13 @@ export class UserService {
         return result.rows[0];
     }
 
+    async findAll(): Promise<any> {
+        const result = await this.pool.query(
+            'SELECT * FROM users',
+        );
+        return result.rows;
+    }
+
     async deleteUserByUsername(username: string): Promise<any> {
         await this.pool.query('DELETE FROM users WHERE username = $1', [username]);
     }

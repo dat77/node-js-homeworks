@@ -6,9 +6,9 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Post()
-    async createUser(@Body() body:{ userName: string; password: string; email: string }): Promise<any> {
-        await this.userService.createUser(body.userName, body.password, body.email);
-        return { message: `User ${body.userName} created successfully` };
+    async createUser(@Body() body:{ username: string; password: string; email: string }): Promise<any> {
+        await this.userService.createUser(body.username, body.password, body.email);
+        return { message: `User ${body.username} created successfully` };
     }
 
     @Get(':username')
@@ -16,9 +16,14 @@ export class UserController {
         return this.userService.findUserByUsername(username);
     }
 
+    @Get()
+    async findAll() {
+        return this.userService.findAll();
+    }
+
     @Delete(':username')
     async deleteUser(@Param('username') username: string) {
-        await this.deleteUser(username);
+        await this.userService.deleteUserByUsername(username);
         return { message: `User ${username} removed successfully` };
     }
 }
