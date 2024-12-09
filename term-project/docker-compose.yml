@@ -11,6 +11,14 @@ services:
     ports:
       - "5433:5432"
 
+  redis:
+    image: "redis:alpine"
+    environment:
+      REDIS_PORT: 6379
+      REDIS_TTL: 600
+    ports:
+      - "6379:6379"
+
 #  app:
 #    build: .
 #    command: npm start

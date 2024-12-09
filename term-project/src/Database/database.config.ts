@@ -8,11 +8,11 @@ import { Pool } from 'pg';
             provide: 'DATABASE_POOL',
             useFactory: () => {
                 return new Pool({
-                    host: process.env.DB_HOST || 'localhost',
-                    port: parseInt(process.env.DB_PORT, 10) || 5433,
-                    user: process.env.DB_USER || 'uzer',
-                    password: process.env.DB_PASSWORD || 'pazzword',
-                    database: process.env.DB_NAME || 'term_project',
+                    host: process.env.POSTGRES_HOST || 'localhost',
+                    port: parseInt(process.env.POSTGRES_PORT, 10) || 5433,
+                    user: process.env.POSTGRES_USER || 'uzer',
+                    password: process.env.POSTGRES_PASSWORD || 'pazzword',
+                    database: process.env.POSTGRES_NAME || 'term_project',
                 });
             },
         },
