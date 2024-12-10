@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  app:
+    build: .
+    command: npm start
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+
   db:
     image: postgres:latest
     environment:
@@ -18,16 +30,3 @@ services:
       REDIS_TTL: 600
     ports:
       - "6379:6379"
-
-#  app:
-#    build: .
-#    command: npm start
-#    volumes:
-#      - .:/usr/src/app
-#    working_dir: /usr/src/app
-#    environment:
-#      DATABASE_URL: postgres://uzer:pazzword@db:5432/term_project
-#    ports:
-#      - "3000:3000"
-#    depends_on:
-#      - db

@@ -3,6 +3,7 @@ import { Injectable, CanActivate, ExecutionContext,
 import { Observable } from "rxjs";
 import { JwtService } from '@nestjs/jwt';
 import { TokenService } from './token.service';
+import * as process from "node:process";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,7 +26,7 @@ export class AuthGuard implements CanActivate {
     private async validateTokens(token: string, request: any): Promise<boolean> {
         try {
             const decoded = this.jwtService.verify(token, {
-                secret: process.env.JWT_SECRET,
+                secret: process.env.JWT_SECRET || '*jwt*',
             });
             let storedToken = await this.tokenService.findAccessToken(token);
             if (!storedToken) {

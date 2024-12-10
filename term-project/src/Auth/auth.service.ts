@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { TokenService } from './token.service';
 import * as bcrypt from 'bcrypt';
+import process from "node:process";
 
 @Injectable()
 export class AuthService {
@@ -28,19 +29,20 @@ export class AuthService {
     const currUser = await this.tokenService.findTokensByUsername(user.username);
 
     if (currUser) {
-      const access_decoded = this.jwtService.verify(currUser.access_token, {
-        secret: process.env.JWT_SECRET,
-      });
-      if ( access_decoded.exp > Math.trunc(new Date().valueOf() / 1000) ) {
+      try{
+        this.jwtService.verify(currUser.access_token, {
+          secret: process.env.JWT_SECRET || '*jwt*',
+        });
         return {
           access_token: currUser.access_token,
           refresh_token: currUser.refresh_token,
         };
-      } else {
-        const refresh_decoded = this.jwtService.verify(currUser.refresh_token, {
-          secret: process.env.JWT_SECRET,
-        });
-        if ( refresh_decoded.exp > Math.trunc(new Date().valueOf() / 1000) ) {
+      }
+      catch (err) {
+        try {
+          this.jwtService.verify(currUser.refresh_token, {
+            secret: process.env.JWT_SECRET || '*jwt*',
+          });
           const newAccessToken = this.jwtService.sign(payload, { expiresIn: '2m' });
           await this.tokenService.refreshAccessToken(newAccessToken, currUser.refresh_token);
           return {
@@ -48,11 +50,13 @@ export class AuthService {
             refresh_token: currUser.refresh_token,
           };
         }
+        catch (err) {
+
+        }
       }
     }
-
     const accessToken = this.jwtService.sign(payload, { expiresIn: '2m' });
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '2h' });
     if (currUser) {
       await this.tokenService.refreshTokens(user.id, accessToken, refreshToken);
     } else {
@@ -75,12 +79,12 @@ export class AuthService {
 
     try {
       const decoded = this.jwtService.verify(refreshToken, {
-        secret: process.env.JWT_SECRET,
+        secret: process.env.JWT_SECRET || '*jwt*',
       });
 
       const newAccessToken = this.jwtService.sign(
         { username: decoded.username, sub: decoded.sub },
-        { expiresIn: '15m', secret: process.env.JWT_SECRET },
+        { expiresIn: '2m', secret: process.env.JWT_SECRET || '*jwt*' },
       );
 
       await this.tokenService.saveTokens(
