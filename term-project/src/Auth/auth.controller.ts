@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {ApiProperty} from "@nestjs/swagger";
 
@@ -35,6 +35,10 @@ export class AuthController {
 
   @Post('refresh-token')
   async refresh(@Body() body: RefreshDto ) {
+    if(!body.refresh_token) {
+      throw new ForbiddenException('Invalid token. Try to login again');
+    }
+
     const token = await this.authService.refreshAccessToken(body.refresh_token);
 
     if (!token) {

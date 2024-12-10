@@ -10,6 +10,7 @@ async function bootstrap() {
       .setDescription('This is Rest API server on NestJS framework')
       .setVersion('1.0')
       .addTag('NodeNestTermProject')
+      .addBearerAuth()
       .build();
   const swaggerDocumentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('swagger', app, swaggerDocumentFactory);

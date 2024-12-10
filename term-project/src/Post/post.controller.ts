@@ -1,6 +1,7 @@
-import {Controller, Get, Param, Post, Body, Delete} from '@nestjs/common';
+import {Controller, Get, Param, Post, Body, UseGuards} from '@nestjs/common';
 import { PostService } from './post.service';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from "../Auth/auth.guard";
 
 export class CreatePostDto {
     @ApiProperty()
@@ -9,6 +10,8 @@ export class CreatePostDto {
     post: string;
 }
 
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 @Controller('post')
 export class PostController {
     constructor(private readonly postService: PostService) {}

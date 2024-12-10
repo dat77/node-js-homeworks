@@ -41,7 +41,7 @@ export class AuthService {
           secret: process.env.JWT_SECRET,
         });
         if ( refresh_decoded.exp > Math.trunc(new Date().valueOf() / 1000) ) {
-          const newAccessToken = this.jwtService.sign(payload, { expiresIn: '3h' });
+          const newAccessToken = this.jwtService.sign(payload, { expiresIn: '2m' });
           await this.tokenService.refreshAccessToken(newAccessToken, currUser.refresh_token);
           return {
             access_token: newAccessToken,
@@ -51,7 +51,7 @@ export class AuthService {
       }
     }
 
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '3h' });
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '2m' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
     if (currUser) {
       await this.tokenService.refreshTokens(user.id, accessToken, refreshToken);
