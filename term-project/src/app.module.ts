@@ -7,6 +7,7 @@ import { PostModule } from "./Post/post.module";
 import { DatabaseConfig } from "./Database/database.config";
 import { CacheModule } from "@nestjs/cache-manager";
 import * as redisStore from 'cache-manager-redis-store';
+import {AuthModule} from "./Auth/auth.module";
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -19,7 +20,8 @@ import * as redisStore from 'cache-manager-redis-store';
                 ttl: parseInt(process.env.REDIS_TTL, 10) || 600, // seconds
             }),
             UserModule,
-            PostModule],
+            PostModule,
+            AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

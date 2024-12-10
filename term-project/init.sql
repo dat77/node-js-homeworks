@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
---CREATE TABLE IF NOT EXISTS tokens (
---    id SERIAL PRIMARY KEY,
---    user_id INT NOT NULL,
---    access_token TEXT NOT NULL,
---    refresh_token TEXT NOT NULL,
---    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
---);
+CREATE TABLE IF NOT EXISTS tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    access_token TEXT NOT NULL,
+    refresh_token TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
