@@ -15,7 +15,7 @@ import {AuthModule} from "./auth/auth.module";
             CacheModule.register({
                 isGlobal: true,
                 store: redisStore,
-                host: process.env.REDIS_HOST || '127.0.0.1',
+                host: process.env.REDIS_HOST || 'redis',
                 port: parseInt(process.env.REDIS_PORT, 10) || 6379,
                 ttl: parseInt(process.env.REDIS_TTL, 10) || 600, // seconds
             }),

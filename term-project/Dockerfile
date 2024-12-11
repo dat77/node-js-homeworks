@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 # Install the project dependencies
 RUN npm install
+# Install the nest cli
+RUN npm install -g @nestjs/cli
 # Copy the rest of the project files to the working directory
 COPY . .
 # Expose the port the app runs on
