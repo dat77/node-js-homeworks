@@ -15,7 +15,7 @@ describe('Posts', () => {
         ]
     };
     let authGuard = {
-        validateTokens: (token: string, request: any) => { return token === 'ok'}
+        validateTokens: (token: string, request: any) => token === 'ok'
     };
 
     beforeEach(async () => {
