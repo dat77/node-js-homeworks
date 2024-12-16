@@ -1,16 +1,9 @@
 import {Controller, Get, Param, Post, Body, Delete, UseGuards} from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiProperty, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from "../auth/auth.guard";
+import { CreateUserDto} from "./dto/user.dto";
 
-export class CreateUserDto {
-    @ApiProperty()
-    username: string;
-    @ApiProperty()
-    password: string;
-    @ApiProperty()
-    email: string;
-}
 
 // @UseGuards(AuthGuard)
 // @ApiBearerAuth()

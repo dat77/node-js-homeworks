@@ -5,12 +5,12 @@ import {JwtModule} from "@nestjs/jwt";
 import {AuthModule} from "../auth/auth.module";
 
 @Module({
-    // imports: [
-    //     JwtModule.register({
-    //         secret: process.env.JWT_SECRET || '*jwt*',
-    //     }),
-    //     AuthModule,
-    // ],
+    imports: [
+        // JwtModule.register({
+        //     secret: process.env.JWT_SECRET || '*jwt*',
+        // }),
+        // AuthModule,
+    ],
     controllers: [UserController],
     providers: [UserService],
     exports: [UserService],
