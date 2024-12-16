@@ -4,14 +4,18 @@ import * as request from 'supertest';
 import { PostModule} from "../src/post/post.module";
 import { PostService } from "../src/post/post.service";
 import {DatabaseConfig} from "../src/database/database.config";
+import { AuthGuard } from "../src/auth/auth.guard";
 
 describe('Posts', () => {
     let app: INestApplication;
     let postService = {
-        findPostsByUsername: () => [
-            {"username":"Oscar", "post": "Hi people", "created_at": "01.01.01"},
-            {"username":"Oscar", "post": "Bye people", "created_at": "02.01.01"}
+        findPostsByUsername: (username: string) => [
+            {"username":username, "post": "Hi people", "created_at": "01.01.01"},
+            {"username":username, "post": "Bye people", "created_at": "02.01.01"}
         ]
+    };
+    let authGuard = {
+        validateTokens: (token: string, request: any) => { return token === 'ok'}
     };
 
     beforeEach(async () => {
@@ -20,6 +24,8 @@ describe('Posts', () => {
         })
             .overrideProvider(PostService)
             .useValue(postService)
+            .overrideGuard(AuthGuard)
+            .useValue(authGuard)
             .compile();
 
         app = module.createNestApplication();
@@ -45,15 +51,13 @@ describe('Posts', () => {
             });
     });
 
-
-
-    it('/GET findPostsByUsername Unauthorized', () => {
+    it('/GET findPostsByUsername OK', () => {
         return request(app.getHttpServer())
             .get('/post/Oscar')
-            .set('Authorization', 'Bearer TYTtyhabssg26732hqghqg')
+            .set('Authorization', 'Bearer ok')
             .expect(200)
             .expect(
-                postService.findPostsByUsername()
+                postService.findPostsByUsername('Oscar')
             );
     });
 
