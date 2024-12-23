@@ -1,0 +1,51 @@
+### Create a new user
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "username": "oscar",
+  "password": "*oscar*",
+  "email": "oscar.wilde@domain.com"
+}
+
+### Create a new user
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "username": "mykhailo",
+  "password": "*mykhailo*",
+  "email": "mykhailo.kotsubynskyi@domain.com"
+}
+
+### Get user by username
+GET http://localhost:3000/user/oscar
+
+### Get all users
+GET http://localhost:3000/user
+
+### Delete user by username
+DELETE http://localhost:3000/user/mykhailo
+
+### Create a new post
+POST http://localhost:3000/post
+Content-Type: application/json
+
+{
+  "username": "mykhailo",
+  "post": "Hello everyone in this chat"
+}
+
+### Create a new post
+POST http://localhost:3000/post
+Content-Type: application/json
+
+{
+  "username": "mykhailo",
+  "post": "Bye everyone in this chat"
+}
+
+### Get posts by username
+GET http://localhost:3000/post/mykhailo
+
+
